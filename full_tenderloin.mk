@@ -33,7 +33,7 @@ PRODUCT_COPY_FILES += \
     device/hp/tenderloin/prebuilt/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
     device/hp/tenderloin/fstab.tenderloin:root/fstab.tenderloin \
     device/hp/tenderloin/makemulti.sh:makemulti.sh \
-    device/hp/tenderloin/prebuilt/boot/moboot.splash.Evervolv.tga:moboot.splash.Evervolv.tga \
+    device/hp/tenderloin/prebuilt/boot/moboot.splash.CyanogenMod.tga:moboot.splash.CyanogenMod.tga \
     device/hp/tenderloin/prebuilt/boot/moboot.default:moboot.default
 
 # Add touchcreen configuration file
@@ -182,7 +182,6 @@ PRODUCT_PACKAGES += \
     lights.tenderloin \
     ts_srv \
     ts_srv_set \
-    dosfsck \
     serial \
     com.android.future.usb.accessory \
     rebootcmd
