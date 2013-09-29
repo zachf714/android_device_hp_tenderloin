@@ -41,12 +41,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   # change very often.
   script = edify_generator.EdifyGenerator(3, OPTIONS.info_dict)
 
-  metadata = {"post-build": GetBuildProp("ro.build.fingerprint",
-                                         OPTIONS.info_dict),
-              "pre-device": GetBuildProp("ro.product.device",
-                                         OPTIONS.info_dict),
-              "post-timestamp": GetBuildProp("ro.build.date.utc",
-                                             OPTIONS.info_dict),
+  metadata = {"post-build": GetBuildProp("ro.build.fingerprint", OPTIONS.info_dict),
+              "pre-device": GetBuildProp("ro.product.device", OPTIONS.info_dict),
+              "post-timestamp": GetBuildProp("ro.build.date.utc", OPTIONS.info_dict),
               }
 
   device_specific = common.DeviceSpecificParams(
@@ -58,24 +55,25 @@ def WriteFullOTAPackage(input_zip, output_zip):
       metadata=metadata,
       info_dict=OPTIONS.info_dict)
 
+#  if not OPTIONS.omit_prereq:
+#    ts = GetBuildProp("ro.build.date.utc", input_zip)
+#    script.AssertOlderBuild(ts)
+
   AppendAssertions(script, OPTIONS.info_dict)
   device_specific.FullOTA_Assertions()
-  device_specific.FullOTA_InstallBegin()
+  if OPTIONS.backuptool:
+    script.Mount("/system")
+    script.RunBackup("backup")
+    script.Unmount("/system")
 
   script.ShowProgress(0.5, 0)
 
   if OPTIONS.wipe_user_data:
-# Comments during install added for Evervolv by cocide
-    script.Print("Wiping user data")
     script.FormatPartition("/data")
 
-# Comments during install added for Evervolv by cocide
-  script.Print("Formatting system")
   script.FormatPartition("/system")
   script.Mount("/system")
   script.UnpackPackageDir("recovery", "/system")
-# Comments during install added for Evervolv by cocide
-  script.Print("Installing CyanogenMod")
   script.UnpackPackageDir("system", "/system")
 
   symlinks = CopySystemFiles(input_zip, output_zip)
@@ -90,8 +88,6 @@ def WriteFullOTAPackage(input_zip, output_zip):
   # -- tenderloin build change done
 
   Item.GetMetadata(input_zip)
-# Comments during install added for Evervolv by cocide
-  script.Print("Setting permissions")
   Item.Get("system").SetPermissions(script)
 
   # -- tenderloin build change starting
@@ -99,6 +95,10 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
   # -- tenderloin build change done
   script.ShowProgress(0.2, 0)
+
+  if OPTIONS.backuptool:
+    script.ShowProgress(0.2, 10)
+    script.RunBackup("restore")
 
 #  script.RunVerifyCachePartitionSize()
 
@@ -117,19 +117,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   common.ZipWriteStr(output_zip, "moboot.splash.CyanogenMod.tga", moboot_tga.read())
   moboot_tga.close()
 
-  moboot_default = open(OPTIONS.device_out + "/moboot.default")
-  common.ZipWriteStr(output_zip, "moboot.default", moboot_default.read())
-  moboot_tga.close()
-
   script.UnpackPackageFile("moboot.splash.CyanogenMod.tga", "/boot/moboot.splash.CyanogenMod.tga")
-  script.UnpackPackageFile("moboot.default", "/boot/moboot.default")
-
-  # Delete other uImage traces.
-
-  um = ["/boot/uImage.Evervolv", "/boot/moboot.splash.Evervolv.tga", "/boot/uImage.ICS", 
-        "/boot/moboot.splash.ICS.tga", "/boot/uImage.AOKP", "/boot/moboot.splash.AOKP.tga",
-        "/boot/uImage.Classicnerd", "/boot/moboot.splash.Classicnerd"]
-  script.DeleteFiles(um)
 
   # -- tenderloin build change done
 
