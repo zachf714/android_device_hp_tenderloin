@@ -72,6 +72,9 @@ PRODUCT_PROPERTY_OVERRIDES += debug.mdpcomp.maxlayer=3
 # QCOM enhanced A/V
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
+# QCOM enhanced A/V
+TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
+
 # Webkit workaround
 TARGET_FORCE_CPU_UPLOAD := true
 
