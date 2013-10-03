@@ -21,14 +21,17 @@ on init
     # /lib symlink first and kill it later when no longer needed.
     symlink /boot/lib /lib
 
+    # remove moboot nextboot instruction
+    exec /boot/bin/busybox rm -rf /boot/moboot.next
+
     # Also stupid lvm binary expects block devices to live in /dev,
     # not /dev/block
     symlink /dev/block/mmcblk0p14 /dev/mmcblk0p14
     exec /boot/bin/sh -c "LVM_SYSTEM_DIR=/boot/etc/lvm /boot/usr/sbin/lvm.static vgchange -ay"
     mount ext3 /dev/block/mmcblk0p13 /boot remount ro wait noatime barrier=1
 
-    # remove all the lvm stuff as well as the moboot nextboot instruction
-    exec /system/xbin/rm -rf /dev/mmcblk0p14 /lib /boot/moboot.next /var
+    # remove all the lvm stuff
+    exec /system/xbin/rm -rf /dev/mmcblk0p14 /lib /var
 
     # remount /boot read-only
     mount ext3 /dev/block/mmcblk0p13 /boot remount ro wait noatime barrier=1
