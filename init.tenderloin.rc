@@ -222,6 +222,16 @@ service reboot_recovery /system/bin/moboot_control.sh recovery
 on property:sys.reboot.recovery=1
 	start reboot_recovery
 
+service reboot_altos /system/bin/moboot_control.sh altos
+    class core
+    user root
+    group root
+    disabled
+    oneshot
+
+on property:sys.reboot.altos=1
+	start reboot_altos
+
 on property:init.svc.bootanim=stopped
     start thermald
     start mpdecision

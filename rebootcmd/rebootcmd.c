@@ -12,6 +12,12 @@ int main(int argc, char**argv, char *envp[])
 		//returns 1 if error
 		ALOGD("Setting property sys.reboot.recovery return = %d",
 				property_set("sys.reboot.recovery", "1"));
+	} else {
+		if(strcmp(argv[1], "altos") == 0){
+			//returns 1 if error
+			ALOGD("Setting property sys.reboot.altos return = %d",
+				property_set("sys.reboot.altos", "1"));
+		}
 	}
 
 	//Needed to allow the script to write to /boot/moboot.next
