@@ -190,6 +190,9 @@ int touch_delay_count = TOUCH_DELAY;
 #define X_RESOLUTION_MINUS1 X_RESOLUTION - 1
 #define Y_RESOLUTION_MINUS1 Y_RESOLUTION - 1
 
+//Used to bypass the first call of the socket
+int f_run = 0;
+
 struct touchpoint {
 	// Power or weight of the touch, used for calculating the center point.
 	int pw;
@@ -1273,10 +1276,12 @@ void process_socket_buffer(char buffer[], int buffer_len, int *uart_fd,
 	for (i=0; i<buffer_len; i++) {
 		buf = (int)buffer[i];
 
-		if (buf == 67 /* 'C' */ && *uart_fd >= 0) {
+		if (buf == 67 /* 'C' */) {
+			if(f_run == 0)
+				f_run = 1;
 			touchscreen_power(0);
 		}
-		if (buf == 79 /* 'O' */) {
+		if (buf == 79 /* 'O' */ && f_run == 1) {
 			touchscreen_power(1);
 			if(*uart_fd > 0){
 				close(*uart_fd);
