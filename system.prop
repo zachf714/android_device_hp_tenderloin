@@ -39,3 +39,6 @@ net.bt.name=Android
 
 persist.service.adb.enable=1
 persist.sys.usb.config=mass_storage,adb
+
+# Enable low ram device flag
+ro.config.low_ram=true
