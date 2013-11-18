@@ -100,6 +100,7 @@ USE_CAMERA_STUB := false
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x40200000
 BOARD_PAGE_SIZE := 2048
+BOARD_KERNEL_IMAGE_NAME := uImage
 
 BOARD_NEEDS_CUTILS_LOG := true
 
