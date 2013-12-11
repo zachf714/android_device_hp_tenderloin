@@ -157,10 +157,6 @@
          autodetected from the Configuration. -->
     <bool name="config_showNavigationBar">true</bool>
 
-    <!-- Component name of the default wallpaper. This will be ImageWallpaper if not 
-         specified -->
-    <string name="default_wallpaper_component">@null</string>    
-
     <!-- Disable the home key unlock setting -->
 <!--    <bool name="config_disableHomeUnlockSetting">false</bool> -->
 
