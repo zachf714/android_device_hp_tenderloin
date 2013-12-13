@@ -170,6 +170,8 @@ PRODUCT_PACKAGES += \
     librs_jni \
     wpa_supplicant.conf \
     libnetcmdiface \
+    libmllite \
+    libmlplatform \
     sensors.tenderloin \
     lights.tenderloin \
     memtrack.msm8660 \
