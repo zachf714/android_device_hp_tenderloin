@@ -37,6 +37,8 @@
 
 #include <audio_utils/resampler.h>
 
+#include <hardware_legacy/power.h>
+
 #include "audio_route.h"
 
 #define PCM_CARD 0
@@ -266,6 +268,7 @@ static void do_out_standby(struct stream_out *out)
         }
         out->standby = true;
 		out_standby_pend = false;
+        release_wake_lock("AudioOutLock");
     }
 }
 
@@ -290,6 +293,7 @@ static void do_in_standby(struct stream_in *in)
             in->buffer = NULL;
         }
         in->standby = true;
+        release_wake_lock("AudioInLock");
     }
 	if (out_standby_pend) {
 		struct stream_out *aout = adev->active_out;
@@ -342,11 +346,14 @@ static int start_output_stream(struct stream_out *out)
         pthread_mutex_unlock(&in->lock);
     }
 
+    acquire_wake_lock(PARTIAL_WAKE_LOCK, "AudioOutLock");
+
     out->pcm = pcm_open(PCM_CARD, device, PCM_OUT | PCM_NORESTART, out->pcm_config);
 
     if (out->pcm && !pcm_is_ready(out->pcm)) {
         ALOGE("pcm_open(out) failed: %s", pcm_get_error(out->pcm));
         pcm_close(out->pcm);
+        release_wake_lock("AudioOutLock");
         return -ENOMEM;
     }
 
@@ -417,11 +424,14 @@ static int start_input_stream(struct stream_in *in)
         pthread_mutex_unlock(&out->lock);
     }
 
+    acquire_wake_lock(PARTIAL_WAKE_LOCK, "AudioInLock");
+
     in->pcm = pcm_open(PCM_CARD, device, PCM_IN, in->pcm_config);
 
     if (in->pcm && !pcm_is_ready(in->pcm)) {
         ALOGE("pcm_open(in) failed: %s", pcm_get_error(in->pcm));
         pcm_close(in->pcm);
+        release_wake_lock("AudioInLock");
         return -ENOMEM;
     }
 
