@@ -161,13 +161,14 @@ on boot
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
 
+    # allow Q6 bites to restart LPASS(Q6/audio) subsystem
+    write /sys/module/subsystem_restart/parameters/restart_level 3
+
     # compat-wireless modules needed for ath6kl
     insmod /system/lib/modules/nls_utf8.ko
     insmod /system/lib/modules/cifs.ko
     insmod /system/lib/modules/ntfs.ko
     insmod /system/lib/modules/tun.ko
-    insmod /system/lib/modules/compat.ko
-    insmod /system/lib/modules/cfg80211.ko
 
     # change permissions for i2c-2 device
     chmod 0660 /dev/i2c-2     chown media media /dev/i2c-2
@@ -224,4 +225,4 @@ service serial /sbin/serial
     oneshot
 
 on property:init.svc.bootanim=stopped
-    start mpdecision
+#    start mpdecision
