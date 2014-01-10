@@ -57,7 +57,6 @@ COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 # Define egl.cfg location
 BOARD_EGL_CFG := device/hp/tenderloin/egl.cfg
-BOARD_EGL_NEEDS_LEGACY_FB := true
 USE_OPENGL_RENDERER := true
 TARGET_DISPLAY_USE_RETIRE_FENCE := true
 TARGET_USES_C2D_COMPOSITION := true
@@ -66,9 +65,6 @@ TARGET_DISPLAY_INSECURE_MM_HEAP := true
 
 # QCOM HAL
 BOARD_USES_QCOM_HARDWARE := true
-TARGET_USES_OVERLAY := false
-BOARD_USES_LEGACY_OVERLAY := true
-PRODUCT_PROPERTY_OVERRIDES += debug.mdpcomp.maxlayer=3
 
 # QCOM enhanced A/V
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
@@ -82,6 +78,7 @@ BOARD_USE_QCOM_PMEM := true
 BOARD_CAMERA_USE_GETBUFFERINFO := true
 BOARD_FIRST_CAMERA_FRONT_FACING := true
 BOARD_CAMERA_USE_ENCODEDATA := true
+BOARD_NEEDS_MEMORYHEAPPMEM := true
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
@@ -116,6 +113,7 @@ TARGET_KERNEL_SOURCE := kernel/hp/tenderloin
 TARGET_KERNEL_CONFIG := cyanogenmod_tenderloin_defconfig
 
 TARGET_RECOVERY_INITRC := device/hp/tenderloin/recovery/init.rc
+BOARD_HAS_NO_SELECT_BUTTON := false
 
 # tenderloin - these partition sizes are temporary to complete build
 TARGET_USERIMAGES_USE_EXT4 := true
