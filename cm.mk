@@ -30,3 +30,5 @@ TARGET_SCREEN_WIDTH := 1024
 # USB
 #ADDITIONAL_DEFAULT_PROPERTIES += persist.sys.usb.config=mass_storage,adb
 #ADDITIONAL_DEFAULT_PROPERTIES += persist.sys.usb.config=mtp,adb
+
+TARGET_UNOFFICIAL_BUILD_ID := 3.4_kernel
