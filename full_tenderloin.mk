@@ -121,8 +121,13 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 # This is a tablet.
 PRODUCT_CHARACTERISTICS := tablet
-PRODUCT_AAPT_CONFIG := xlarge mdpi
+PRODUCT_AAPT_CONFIG := xlarge mdpi hdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi
+
+# Bluetooth
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/bluetooth/bt_vendor.conf:/system/etc/bluetooth/bt_vendor.conf \
+    $(LOCAL_PATH)/bluetooth/bluecore6.psr:/system/etc/bluetooth/bluecore6.psr
 
 # QCOM Hal
 PRODUCT_PACKAGES += \
@@ -133,7 +138,8 @@ PRODUCT_PACKAGES += \
     libmemalloc \
     libtilerenderer \
     libgenlock \
-    libQcomUI
+    libQcomUI \
+    libqdutils
 
 # QCOM OMX
 PRODUCT_PACKAGES += \
@@ -144,7 +150,10 @@ PRODUCT_PACKAGES += \
     libOmxVdec \
     libOmxVenc \
     libOmxAacEnc \
-    libOmxAmrEnc
+    libOmxAmrEnc \
+    libOmxEvrcEnc \
+    libOmxQcelp13Enc \
+    libdashplayer
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -153,7 +162,10 @@ PRODUCT_PACKAGES += \
 # Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
-    audio.primary.tenderloin
+    audio.primary.tenderloin \
+    tinymix \
+    tinyplay \
+    tinycap
 
 # Audio xml Files
 PRODUCT_COPY_FILES += \
@@ -172,6 +184,7 @@ PRODUCT_PACKAGES += \
     libnetcmdiface \
     libmllite \
     libmlplatform \
+    power.tenderloin \
     sensors.tenderloin \
     lights.tenderloin \
     memtrack.msm8660 \
@@ -182,7 +195,9 @@ PRODUCT_PACKAGES += \
     rebootcmd
 
 PRODUCT_PACKAGES += \
-	make_ext4fs
+    make_ext4fs \
+    e2fsck \
+    setup_fs
 
 # Property overrides.
 PRODUCT_PROPERTY_OVERRIDES += \
