@@ -219,4 +219,4 @@ service serial /sbin/serial
     oneshot
 
 on property:init.svc.bootanim=stopped
-#    start mpdecision
+    start mpdecision
